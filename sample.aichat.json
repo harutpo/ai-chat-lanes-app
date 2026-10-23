@@ -1,0 +1,188 @@
+{
+  "schema": 1,
+  "title": "サンプル: ログイン画面をつくる",
+  "northStar": "手順をその都度聞かなくても進められる状態にする（ログイン実装を \"一度で正しく\" 終える）",
+  "createdAt": "2026-10-22T13:58:32.880Z",
+  "updatedAt": "2026-10-22T13:58:32.934Z",
+  "laneOrder": [
+    "root",
+    "l_c39bfab904",
+    "l_db8d7e8220",
+    "l_2558e49d2e"
+  ],
+  "lanes": {
+    "root": {
+      "id": "root",
+      "title": "本流",
+      "axis": null,
+      "parentMessageId": null,
+      "collapsed": false,
+      "createdAt": "2026-10-22T13:58:32.880Z"
+    },
+    "l_c39bfab904": {
+      "id": "l_c39bfab904",
+      "title": "フォームの具体的な手順",
+      "axis": "speed",
+      "parentMessageId": "m_691adc01a8",
+      "collapsed": false,
+      "createdAt": "2026-10-22T13:58:32.932Z"
+    },
+    "l_db8d7e8220": {
+      "id": "l_db8d7e8220",
+      "title": "目的の先: 迷わず進める状態",
+      "axis": "altitude",
+      "parentMessageId": "m_b0f07a4af6",
+      "collapsed": false,
+      "createdAt": "2026-10-22T13:58:32.933Z"
+    },
+    "l_2558e49d2e": {
+      "id": "l_2558e49d2e",
+      "title": "回復フローの深掘り",
+      "axis": "depth",
+      "parentMessageId": "m_9758c6a7da",
+      "collapsed": false,
+      "createdAt": "2026-10-22T13:58:32.933Z"
+    }
+  },
+  "messageOrder": {
+    "root": [
+      "m_05fd0a423f",
+      "m_691adc01a8",
+      "m_b0f07a4af6",
+      "m_9758c6a7da"
+    ],
+    "l_c39bfab904": [
+      "m_e11497eb16",
+      "m_6986ac63c8"
+    ],
+    "l_db8d7e8220": [
+      "m_b0ac0930ba",
+      "m_ebd156d680"
+    ],
+    "l_2558e49d2e": [
+      "m_defa0dea95",
+      "m_637ee2f6bd"
+    ]
+  },
+  "messages": {
+    "m_05fd0a423f": {
+      "id": "m_05fd0a423f",
+      "laneId": "root",
+      "role": "user",
+      "content": "Web アプリにログイン画面を作りたい。何から始めればいい？",
+      "createdAt": "2026-10-22T13:58:32.931Z",
+      "updatedAt": "2026-10-22T13:58:32.931Z",
+      "stickies": []
+    },
+    "m_691adc01a8": {
+      "id": "m_691adc01a8",
+      "laneId": "root",
+      "role": "ai",
+      "content": "# 進め方\n\n1. **認証方式を決める**（パスワード / OAuth / パスキー）\n2. フォームとバリデーション\n3. セッション管理\n\n| 方式 | 実装コスト | フィッシング耐性 |\n|---|---|---|\n| パスワード | 低 | 低 |\n| OAuth | 中 | 中 |\n| パスキー | 中 | 高 |\n\n```js\nconst session = await auth.login({ user, password });\n```",
+      "createdAt": "2026-10-22T13:58:32.931Z",
+      "updatedAt": "2026-10-22T13:58:32.931Z",
+      "stickies": []
+    },
+    "m_b0f07a4af6": {
+      "id": "m_b0f07a4af6",
+      "laneId": "root",
+      "role": "user",
+      "content": "認証方式はパスキーにしたい。全体の設計を見直すとどうなる？",
+      "createdAt": "2026-10-22T13:58:32.931Z",
+      "updatedAt": "2026-10-22T13:58:32.931Z",
+      "stickies": []
+    },
+    "m_9758c6a7da": {
+      "id": "m_9758c6a7da",
+      "laneId": "root",
+      "role": "ai",
+      "content": "パスキー前提なら「パスワードを保存しない」設計になります。\n\n- 登録: WebAuthn の `navigator.credentials.create()`\n- ログイン: `navigator.credentials.get()`\n- 回復: 別デバイス追加 or メールのマジックリンク",
+      "createdAt": "2026-10-22T13:58:32.931Z",
+      "updatedAt": "2026-10-22T13:58:32.931Z",
+      "stickies": []
+    },
+    "m_e11497eb16": {
+      "id": "m_e11497eb16",
+      "laneId": "l_c39bfab904",
+      "role": "user",
+      "content": "フォームのバリデーションの具体的なコードを教えて",
+      "createdAt": "2026-10-22T13:58:32.932Z",
+      "updatedAt": "2026-10-22T13:58:32.932Z",
+      "stickies": [
+        {
+          "id": "s_fa80a3d7db",
+          "text": "手順を聞いている。本当に必要？ → 目的の先を考える分岐も作った",
+          "todos": [
+            {
+              "id": "t_dbaf7d5345",
+              "text": "バリデーションを実装",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    "m_6986ac63c8": {
+      "id": "m_6986ac63c8",
+      "laneId": "l_c39bfab904",
+      "role": "ai",
+      "content": "```html\n<form id=\"login\">\n  <input name=\"email\" type=\"email\" required>\n  <button>ログイン</button>\n</form>\n```\n\n送信時は `form.checkValidity()` を使います。",
+      "createdAt": "2026-10-22T13:58:32.932Z",
+      "updatedAt": "2026-10-22T13:58:32.932Z",
+      "stickies": []
+    },
+    "m_b0ac0930ba": {
+      "id": "m_b0ac0930ba",
+      "laneId": "l_db8d7e8220",
+      "role": "user",
+      "content": "個別の手順を聞くのをやめたい。「ログイン機能を一度で正しく終える」ために、先に揃えておくべきものを一覧にして。",
+      "createdAt": "2026-10-22T13:58:32.933Z",
+      "updatedAt": "2026-10-22T13:58:32.933Z",
+      "stickies": [
+        {
+          "id": "s_a1f107a3ea",
+          "text": "外部の審判を決める",
+          "todos": [
+            {
+              "id": "t_4d173934e7",
+              "text": "OWASP ASVS の該当章を読む",
+              "done": false
+            },
+            {
+              "id": "t_d1e4434c1d",
+              "text": "仮想認証器でのテストを試す",
+              "done": false
+            }
+          ]
+        }
+      ]
+    },
+    "m_ebd156d680": {
+      "id": "m_ebd156d680",
+      "laneId": "l_db8d7e8220",
+      "role": "ai",
+      "content": "先に揃えるもの:\n\n- [ ] 脅威モデル（守るもの・攻撃者）\n- [ ] 回復フロー（デバイス紛失時）\n- [ ] テスト環境（Playwright + 仮想認証器）\n- [ ] 外部の審判: OWASP ASVS のチェックリストで自己採点",
+      "createdAt": "2026-10-22T13:58:32.933Z",
+      "updatedAt": "2026-10-22T13:58:32.933Z",
+      "stickies": []
+    },
+    "m_defa0dea95": {
+      "id": "m_defa0dea95",
+      "laneId": "l_2558e49d2e",
+      "role": "user",
+      "content": "一流のセキュリティエンジニアなら、デバイス紛失時の回復フローをどう設計する？生の資料（仕様・インシデント事例）から始めて。",
+      "createdAt": "2026-10-22T13:58:32.933Z",
+      "updatedAt": "2026-10-22T13:58:32.933Z",
+      "stickies": []
+    },
+    "m_637ee2f6bd": {
+      "id": "m_637ee2f6bd",
+      "laneId": "l_2558e49d2e",
+      "role": "ai",
+      "content": "まず WebAuthn Level 3 仕様と、FIDO Alliance の回復ガイドラインを一次資料として読みます。\n\n次に実際のインシデント事例（SIM スワップ経由のアカウント乗っ取り）を分析し、回復フローの攻撃面を洗い出します。",
+      "createdAt": "2026-10-22T13:58:32.934Z",
+      "updatedAt": "2026-10-22T13:58:32.934Z",
+      "stickies": []
+    }
+  }
+}

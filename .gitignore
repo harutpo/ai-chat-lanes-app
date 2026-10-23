@@ -1,0 +1,15 @@
+# OS / Google Drive
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# ローカル専用のツール設定
+.claude/settings.local.json
+
+# 自分のチャット保存データ（公開リポジトリに出さない）
+*.aichat.json
+!sample.aichat.json
+
+# 依存・ログ
+node_modules/
+*.log

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AIチャット">
+<title>AIチャット管理メモ</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header id="topbar">
+  <div class="tb-left">
+    <input id="title" class="title-input" type="text" placeholder="プロジェクト名" spellcheck="false">
+    <div class="file-line"><span id="dirty-mark" class="dirty-mark" hidden>●</span><span id="file-name">未保存</span></div>
+  </div>
+  <div class="tb-center">
+    <label class="northstar-label" for="northstar" title="Altitude: 目の前の作業ではなく、その先に起きてほしい結果を書く">目的の先の目的</label>
+    <textarea id="northstar" rows="1" placeholder="この作業の先に何が起きてほしい？（例: 手順を聞くのではなく、アプリをクラッシュゼロに保つ）" spellcheck="false"></textarea>
+  </div>
+  <div class="tb-right">
+    <div class="marker-tool">
+      <button id="btn-marker" aria-pressed="false" title="マーカー (M): 吹き出しの文章をドラッグして線を引く">🖍 マーカー</button>
+      <span id="marker-colors" class="marker-colors">
+        <button class="marker-color hl-yellow" data-color="yellow" title="黄"></button>
+        <button class="marker-color hl-green" data-color="green" title="緑"></button>
+        <button class="marker-color hl-pink" data-color="pink" title="ピンク"></button>
+        <button class="marker-color hl-blue" data-color="blue" title="青"></button>
+      </span>
+    </div>
+    <button id="btn-new" title="新規プロジェクト">新規</button>
+    <button id="btn-open" title="開く (Ctrl+O)">開く</button>
+    <button id="btn-save" class="primary" title="保存 (Ctrl+S)">保存</button>
+    <button id="btn-saveas" title="別名で保存">名前を付けて保存</button>
+    <button id="btn-export-md" title="Markdownとして書き出す">Markdown書き出し</button>
+    <button id="btn-sidebar" title="サイドバー切替">☰</button>
+  </div>
+</header>
+
+<div id="main">
+  <aside id="sidebar">
+    <div class="sb-tabs">
+      <button class="sb-tab active" data-tab="outline">アウトライン</button>
+      <button class="sb-tab" data-tab="todo">ToDo <span id="todo-badge" class="badge" hidden></span></button>
+    </div>
+    <div class="sb-panel active" id="panel-outline">
+      <input id="search" type="search" placeholder="全文検索…" spellcheck="false">
+      <div id="search-results" class="search-results" hidden></div>
+      <div id="outline" class="outline"></div>
+      <div id="axis-meter" class="axis-meter"></div>
+    </div>
+    <div class="sb-panel" id="panel-todo">
+      <div id="todo-list" class="todo-list"></div>
+    </div>
+  </aside>
+
+  <main id="board-wrap">
+    <div id="board">
+      <svg id="connectors" xmlns="http://www.w3.org/2000/svg"></svg>
+      <svg id="sticky-links" xmlns="http://www.w3.org/2000/svg"></svg>
+      <div id="sticky-layer"></div>
+    </div>
+  </main>
+</div>
+
+<div id="toast" class="toast" hidden></div>
+<input type="file" id="file-input" accept=".json,application/json" hidden>
+
+<script src="js/vendor/marked.umd.js"></script>
+<script src="js/vendor/purify.min.js"></script>
+<script src="js/model.js"></script>
+<script src="js/tutorial.js"></script>
+<script src="js/markdown.js"></script>
+<script src="js/storage.js"></script>
+<script src="js/render.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
